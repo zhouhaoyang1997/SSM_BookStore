@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ShoppingMapper" >
+  <resultMap id="BaseResultMap" type="com.entry.Shopping" >
+    <id column="shopping_id" property="shoppingId" jdbcType="INTEGER" />
+    <result column="shopping_goods" property="shoppingGoods" jdbcType="INTEGER" />
+    <result column="shopping_price" property="shoppingPrice" jdbcType="INTEGER" />
+    <result column="shopping_num" property="shoppingNum" jdbcType="INTEGER" />
+    <result column="shopping_usersid" property="shoppingUsersid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    shopping_id, shopping_goods, shopping_price, shopping_num, shopping_usersid
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.entry.ShoppingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from shopping
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shopping
+    where shopping_id = #{shoppingId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shopping
+    where shopping_id = #{shoppingId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.entry.ShoppingExample" >
+    delete from shopping
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.entry.Shopping" >
+    insert into shopping (shopping_id, shopping_goods, shopping_price, 
+      shopping_num, shopping_usersid)
+    values (#{shoppingId,jdbcType=INTEGER}, #{shoppingGoods,jdbcType=INTEGER}, #{shoppingPrice,jdbcType=INTEGER}, 
+      #{shoppingNum,jdbcType=INTEGER}, #{shoppingUsersid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.entry.Shopping" >
+    insert into shopping
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shoppingId != null" >
+        shopping_id,
+      </if>
+      <if test="shoppingGoods != null" >
+        shopping_goods,
+      </if>
+      <if test="shoppingPrice != null" >
+        shopping_price,
+      </if>
+      <if test="shoppingNum != null" >
+        shopping_num,
+      </if>
+      <if test="shoppingUsersid != null" >
+        shopping_usersid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="shoppingId != null" >
+        #{shoppingId,jdbcType=INTEGER},
+      </if>
+      <if test="shoppingGoods != null" >
+        #{shoppingGoods,jdbcType=INTEGER},
+      </if>
+      <if test="shoppingPrice != null" >
+        #{shoppingPrice,jdbcType=INTEGER},
+      </if>
+      <if test="shoppingNum != null" >
+        #{shoppingNum,jdbcType=INTEGER},
+      </if>
+      <if test="shoppingUsersid != null" >
+        #{shoppingUsersid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.entry.ShoppingExample" resultType="java.lang.Integer" >
+    select count(*) from shopping
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update shopping
+    <set >
+      <if test="record.shoppingId != null" >
+        shopping_id = #{record.shoppingId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shoppingGoods != null" >
+        shopping_goods = #{record.shoppingGoods,jdbcType=INTEGER},
+      </if>
+      <if test="record.shoppingPrice != null" >
+        shopping_price = #{record.shoppingPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.shoppingNum != null" >
+        shopping_num = #{record.shoppingNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.shoppingUsersid != null" >
+        shopping_usersid = #{record.shoppingUsersid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update shopping
+    set shopping_id = #{record.shoppingId,jdbcType=INTEGER},
+      shopping_goods = #{record.shoppingGoods,jdbcType=INTEGER},
+      shopping_price = #{record.shoppingPrice,jdbcType=INTEGER},
+      shopping_num = #{record.shoppingNum,jdbcType=INTEGER},
+      shopping_usersid = #{record.shoppingUsersid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entry.Shopping" >
+    update shopping
+    <set >
+      <if test="shoppingGoods != null" >
+        shopping_goods = #{shoppingGoods,jdbcType=INTEGER},
+      </if>
+      <if test="shoppingPrice != null" >
+        shopping_price = #{shoppingPrice,jdbcType=INTEGER},
+      </if>
+      <if test="shoppingNum != null" >
+        shopping_num = #{shoppingNum,jdbcType=INTEGER},
+      </if>
+      <if test="shoppingUsersid != null" >
+        shopping_usersid = #{shoppingUsersid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where shopping_id = #{shoppingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entry.Shopping" >
+    update shopping
+    set shopping_goods = #{shoppingGoods,jdbcType=INTEGER},
+      shopping_price = #{shoppingPrice,jdbcType=INTEGER},
+      shopping_num = #{shoppingNum,jdbcType=INTEGER},
+      shopping_usersid = #{shoppingUsersid,jdbcType=INTEGER}
+    where shopping_id = #{shoppingId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.DetailMapper" >
+  <resultMap id="BaseResultMap" type="com.entry.Detail" >
+    <id column="details_id" property="detailsId" jdbcType="INTEGER" />
+    <result column="details_order" property="detailsOrder" jdbcType="VARCHAR" />
+    <result column="details_goods" property="detailsGoods" jdbcType="INTEGER" />
+    <result column="details_price" property="detailsPrice" jdbcType="INTEGER" />
+    <result column="details_num" property="detailsNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    details_id, details_order, details_goods, details_price, details_num
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.entry.DetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from details
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from details
+    where details_id = #{detailsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from details
+    where details_id = #{detailsId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.entry.DetailExample" >
+    delete from details
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.entry.Detail" >
+    insert into details (details_id, details_order, details_goods, 
+      details_price, details_num)
+    values (#{detailsId,jdbcType=INTEGER}, #{detailsOrder,jdbcType=VARCHAR}, #{detailsGoods,jdbcType=INTEGER}, 
+      #{detailsPrice,jdbcType=INTEGER}, #{detailsNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.entry.Detail" >
+    insert into details
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="detailsId != null" >
+        details_id,
+      </if>
+      <if test="detailsOrder != null" >
+        details_order,
+      </if>
+      <if test="detailsGoods != null" >
+        details_goods,
+      </if>
+      <if test="detailsPrice != null" >
+        details_price,
+      </if>
+      <if test="detailsNum != null" >
+        details_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="detailsId != null" >
+        #{detailsId,jdbcType=INTEGER},
+      </if>
+      <if test="detailsOrder != null" >
+        #{detailsOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="detailsGoods != null" >
+        #{detailsGoods,jdbcType=INTEGER},
+      </if>
+      <if test="detailsPrice != null" >
+        #{detailsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="detailsNum != null" >
+        #{detailsNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.entry.DetailExample" resultType="java.lang.Integer" >
+    select count(*) from details
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update details
+    <set >
+      <if test="record.detailsId != null" >
+        details_id = #{record.detailsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.detailsOrder != null" >
+        details_order = #{record.detailsOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailsGoods != null" >
+        details_goods = #{record.detailsGoods,jdbcType=INTEGER},
+      </if>
+      <if test="record.detailsPrice != null" >
+        details_price = #{record.detailsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.detailsNum != null" >
+        details_num = #{record.detailsNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update details
+    set details_id = #{record.detailsId,jdbcType=INTEGER},
+      details_order = #{record.detailsOrder,jdbcType=VARCHAR},
+      details_goods = #{record.detailsGoods,jdbcType=INTEGER},
+      details_price = #{record.detailsPrice,jdbcType=INTEGER},
+      details_num = #{record.detailsNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entry.Detail" >
+    update details
+    <set >
+      <if test="detailsOrder != null" >
+        details_order = #{detailsOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="detailsGoods != null" >
+        details_goods = #{detailsGoods,jdbcType=INTEGER},
+      </if>
+      <if test="detailsPrice != null" >
+        details_price = #{detailsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="detailsNum != null" >
+        details_num = #{detailsNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where details_id = #{detailsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entry.Detail" >
+    update details
+    set details_order = #{detailsOrder,jdbcType=VARCHAR},
+      details_goods = #{detailsGoods,jdbcType=INTEGER},
+      details_price = #{detailsPrice,jdbcType=INTEGER},
+      details_num = #{detailsNum,jdbcType=INTEGER}
+    where details_id = #{detailsId,jdbcType=INTEGER}
+  </update>
+</mapper>

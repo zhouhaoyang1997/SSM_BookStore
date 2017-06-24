@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.entry.Order" >
+    <id column="orders_id" property="ordersId" jdbcType="VARCHAR" />
+    <result column="orders_user" property="ordersUser" jdbcType="INTEGER" />
+    <result column="orders_address" property="ordersAddress" jdbcType="VARCHAR" />
+    <result column="orders_tel" property="ordersTel" jdbcType="INTEGER" />
+    <result column="orders_status" property="ordersStatus" jdbcType="VARCHAR" />
+    <result column="orders_consignee" property="ordersConsignee" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    orders_id, orders_user, orders_address, orders_tel, orders_status, orders_consignee
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.entry.OrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from orders
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from orders
+    where orders_id = #{ordersId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from orders
+    where orders_id = #{ordersId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.entry.OrderExample" >
+    delete from orders
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.entry.Order" >
+    insert into orders (orders_id, orders_user, orders_address, 
+      orders_tel, orders_status, orders_consignee
+      )
+    values (#{ordersId,jdbcType=VARCHAR}, #{ordersUser,jdbcType=INTEGER}, #{ordersAddress,jdbcType=VARCHAR}, 
+      #{ordersTel,jdbcType=INTEGER}, #{ordersStatus,jdbcType=VARCHAR}, #{ordersConsignee,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.entry.Order" >
+    insert into orders
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ordersId != null" >
+        orders_id,
+      </if>
+      <if test="ordersUser != null" >
+        orders_user,
+      </if>
+      <if test="ordersAddress != null" >
+        orders_address,
+      </if>
+      <if test="ordersTel != null" >
+        orders_tel,
+      </if>
+      <if test="ordersStatus != null" >
+        orders_status,
+      </if>
+      <if test="ordersConsignee != null" >
+        orders_consignee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ordersId != null" >
+        #{ordersId,jdbcType=VARCHAR},
+      </if>
+      <if test="ordersUser != null" >
+        #{ordersUser,jdbcType=INTEGER},
+      </if>
+      <if test="ordersAddress != null" >
+        #{ordersAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="ordersTel != null" >
+        #{ordersTel,jdbcType=INTEGER},
+      </if>
+      <if test="ordersStatus != null" >
+        #{ordersStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordersConsignee != null" >
+        #{ordersConsignee,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.entry.OrderExample" resultType="java.lang.Integer" >
+    select count(*) from orders
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update orders
+    <set >
+      <if test="record.ordersId != null" >
+        orders_id = #{record.ordersId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordersUser != null" >
+        orders_user = #{record.ordersUser,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordersAddress != null" >
+        orders_address = #{record.ordersAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordersTel != null" >
+        orders_tel = #{record.ordersTel,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordersStatus != null" >
+        orders_status = #{record.ordersStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordersConsignee != null" >
+        orders_consignee = #{record.ordersConsignee,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update orders
+    set orders_id = #{record.ordersId,jdbcType=VARCHAR},
+      orders_user = #{record.ordersUser,jdbcType=INTEGER},
+      orders_address = #{record.ordersAddress,jdbcType=VARCHAR},
+      orders_tel = #{record.ordersTel,jdbcType=INTEGER},
+      orders_status = #{record.ordersStatus,jdbcType=VARCHAR},
+      orders_consignee = #{record.ordersConsignee,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entry.Order" >
+    update orders
+    <set >
+      <if test="ordersUser != null" >
+        orders_user = #{ordersUser,jdbcType=INTEGER},
+      </if>
+      <if test="ordersAddress != null" >
+        orders_address = #{ordersAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="ordersTel != null" >
+        orders_tel = #{ordersTel,jdbcType=INTEGER},
+      </if>
+      <if test="ordersStatus != null" >
+        orders_status = #{ordersStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordersConsignee != null" >
+        orders_consignee = #{ordersConsignee,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where orders_id = #{ordersId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entry.Order" >
+    update orders
+    set orders_user = #{ordersUser,jdbcType=INTEGER},
+      orders_address = #{ordersAddress,jdbcType=VARCHAR},
+      orders_tel = #{ordersTel,jdbcType=INTEGER},
+      orders_status = #{ordersStatus,jdbcType=VARCHAR},
+      orders_consignee = #{ordersConsignee,jdbcType=VARCHAR}
+    where orders_id = #{ordersId,jdbcType=VARCHAR}
+  </update>
+</mapper>
